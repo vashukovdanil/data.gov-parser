@@ -1,7 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
-import numpy as np
 
 
 
@@ -27,13 +26,15 @@ def get_info(url):
         l_date = soup.select('tbody td[property="dc:modified"]')[0].text
         kwords = soup.select('tbody td[property="dc:subject"]')[0].text
         type = soup.select("div.panel-pane.pane-custom.pane-3.pane-node-field-rubric a")[0].text
+        views = int(soup.select("div.pane-node-total-count")[0].text)
+        downloads = int(soup.select("div.od-common-pubdlcnt-count-wrapper span")[0].text)
     except:
-        return ["", "", "", "", "", "", ""]
+        return ["", "", "", "", "", "", "", "", ""]
     else:
-        return [name, hyper, format, f_date, l_date, kwords, type]
+        return [name, hyper, format, f_date, l_date, kwords, type, views, downloads]
 
 def get_data(url):
-    columns = ["Наименование", "Ссылка", "Формат", "Дата первой публикации", "Дата последней публикации", "Ключевые слова", "Тип"]
+    columns = ["Наименование", "Ссылка", "Формат", "Дата первой публикации", "Дата последней публикации", "Ключевые слова", "Тип", "Просмотры", "Загрузки"]
     data = []
 
     # Главная страница
